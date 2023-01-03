@@ -28,7 +28,7 @@ stamp = round(ts)
 filename = "daily_" + str(stamp) + ".txt"
 print(filename)
 f = open("data/" + filename, "x")
-f.write("this is the data")
+f.write('{"temp":50}')
 f.close()
 
 # print(client.list_objects(
@@ -39,4 +39,5 @@ f.close()
 client.upload_file(
     Filename='data/' +filename,
     Bucket=BUCKET_LABEL,
-    Key=filename)
+    Key=filename,
+    ExtraArgs={'ACL':'public-read'})
