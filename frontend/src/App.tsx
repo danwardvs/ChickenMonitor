@@ -105,6 +105,7 @@ function App() {
         {timeFetched && <p>Time Fetched: {format(timeFetched, "PPpp")}</p>}
         <div style={{ width: "50%", background: "white" }}>
           <ReactApexChart
+            // @ts-expect-error dum
             options={options}
             series={[
               {
