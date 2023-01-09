@@ -28,7 +28,7 @@ stamp = round(ts)
 filename = "daily_" + str(stamp) + ".txt"
 print(filename)
 f = open("data/" + filename, "x")
-f.write('{"temp":50}')
+f.write('{"temp":80}')
 f.close()
 
 # print(client.list_objects(
