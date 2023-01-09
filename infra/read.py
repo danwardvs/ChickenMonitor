@@ -22,24 +22,16 @@ linode_obj_config = {
 
 client = boto3.client("s3", **linode_obj_config)
 
-for root,dir,files in os.walk("../" + FRONTEND_DIR +"/build"):
-  for file in files:
-    
-    filename = os.path.join(root,file)
-    print(filename)
-    print(filename[3:][len(FRONTEND_DIR):][len("/build/"):])
+files = client.list_objects(Bucket=BUCKET_LABEL)
 
-    args = {'ACL': 'public-read'}
 
-    if("index.html" in filename):
-     args["ContentType"] = "text/html"
-     print("Setting contentType to text/html")
-
-    client.upload_file(
-      Filename=filename,
-      Bucket=BUCKET_LABEL,
-      Key=FRONTEND_DIR + "/" + filename[3:][len(FRONTEND_DIR):][len("/build/"):],
-      ExtraArgs=args)
+for file in files["Contents"]:
+    print("File: " + file["Key"])
+    for key in file:
+        print(key)
+        print(file[key])
+        print()
+print()
 
 # for file in files["Contents"]:
 #   print(file["Key"])

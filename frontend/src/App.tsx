@@ -35,6 +35,15 @@ function App() {
       text: "Temperatures in the past 24 hours",
       align: "left",
     },
+    xaxis: {
+      labels: {
+        formatter: function (value: number) {
+          if (isNaN(value)) return value;
+          const y = new Date(value);
+          return format(y, "ccc pp");
+        },
+      },
+    },
     grid: {
       row: {
         colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
