@@ -5,6 +5,11 @@ import axios from "axios";
 import { format } from "date-fns";
 import Chart from "./Chart";
 
+type ERROR = "N/A";
+export interface RawDataPoint {
+  temp: number | ERROR;
+  date: Date;
+}
 export interface DataPoint {
   temp: number;
   date: Date;
@@ -57,12 +62,17 @@ function App() {
           axios.get(`https://chicken-api.us-east-1.linodeobjects.com/` + key)
         )
       );
-      const procHistData = pulledHistData.map((e) => ({
+      const rawProcHistData = pulledHistData.map((e) => ({
         ...e.data,
         date: new Date(
           parseInt(e.request.responseURL.slice(-14).slice(0, -4)) * 1000
         ),
-      })) as DataPoint[];
+      })) as RawDataPoint[];
+
+      const procHistData = rawProcHistData.filter(
+        (elem) => elem.temp !== "N/A"
+      ) as DataPoint[];
+
       setHistoricData(procHistData);
       console.log(procHistData);
       const phd = [...procHistData];
