@@ -31,7 +31,7 @@ def write(data):
     filename = "daily_" + str(stamp) + ".txt"
     print(filename)
     f = open("data/" + filename, "x")
-    f.write(str(data))
+    f.write(str(data).replace("'",'"'))
     f.close()
 
     # print(client.list_objects(
