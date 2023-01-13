@@ -3,9 +3,9 @@ import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
 import { format } from "date-fns";
-import ReactApexChart from "react-apexcharts";
+import Chart from "./Chart";
 
-interface DataPoint {
+export interface DataPoint {
   temp: number;
   date: Date;
 }
@@ -15,33 +15,7 @@ function App() {
   const [time, setTime] = useState<Date>();
   const [timeFetched, setTimeFetched] = useState<Date>();
   const [historicData, setHistoricData] = useState<DataPoint[]>([]);
-
-  const options = {
-    chart: {
-      height: 350,
-
-      type: "line",
-      zoom: {
-        enabled: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "straight",
-    },
-    title: {
-      text: "Temperatures in the past 24 hours",
-      align: "left",
-    },
-    grid: {
-      row: {
-        colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-        opacity: 0.5,
-      },
-    },
-  };
+  const [extremes, setExtremes] = useState<DataPoint[]>([]);
 
   useEffect(() => {
     async function fetch() {
@@ -91,6 +65,10 @@ function App() {
       })) as DataPoint[];
       setHistoricData(procHistData);
       console.log(procHistData);
+      const phd = [...procHistData];
+      const low = phd.sort((a, b) => a.temp - b.temp)[0];
+      const high = phd.sort((a, b) => b.temp - a.temp)[0];
+      setExtremes([low, high]);
     }
     fetch();
   }, []);
@@ -103,21 +81,12 @@ function App() {
         <p>Current Temps: {data?.temp}</p>
         {time && <p>Time Recorded: {format(time, "PPpp")}</p>}
         {timeFetched && <p>Time Fetched: {format(timeFetched, "PPpp")}</p>}
+
+        <p>24 Hour Low: {extremes[0]?.temp ?? "N/A"}</p>
+        <p>24 Hour High: {extremes[1]?.temp ?? "N/A"}</p>
+
         <div style={{ width: "50%", background: "white" }}>
-          <ReactApexChart
-            options={options}
-            series={[
-              {
-                name: "Desktops",
-                data: historicData.map((e) => ({
-                  x: e.date.getTime(),
-                  y: e.temp,
-                })),
-              },
-            ]}
-            type="line"
-            height={350}
-          />
+          <Chart data={historicData} />
         </div>
         <p></p>
       </header>
