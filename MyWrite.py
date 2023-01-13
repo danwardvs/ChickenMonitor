@@ -16,7 +16,8 @@ linode_obj_config = {
     "endpoint_url":CLUSTER_URL,
 }
 
-def write(temp):
+
+def write(data):
 
 
     client = boto3.client("s3", **linode_obj_config)
@@ -30,7 +31,7 @@ def write(temp):
     filename = "daily_" + str(stamp) + ".txt"
     print(filename)
     f = open("data/" + filename, "x")
-    f.write('{"temp":' + temp + '}')
+    f.write(str(data))
     f.close()
 
     # print(client.list_objects(
