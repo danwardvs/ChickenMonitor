@@ -22,7 +22,8 @@ def read():
         
 
     except Exception as error:
-        print(error.args[0])
+        #Fails a lot!
+        #print(error.args[0])
 
 
         return MySensor.ERROR

@@ -19,28 +19,30 @@ linode_obj_config = {
 
 def write(data):
 
+    try:
+        client = boto3.client("s3", **linode_obj_config)
 
-    client = boto3.client("s3", **linode_obj_config)
 
+        ct = datetime.datetime.now()
 
-    ct = datetime.datetime.now()
+        # ts store timestamp of current time
+        ts = ct.timestamp()
+        stamp = round(ts)
+        filename = "daily_" + str(stamp) + ".txt"
+        #print(filename)
+        f = open("data/" + filename, "x")
+        f.write(str(data).replace("'",'"'))
+        f.close()
 
-    # ts store timestamp of current time
-    ts = ct.timestamp()
-    stamp = round(ts)
-    filename = "daily_" + str(stamp) + ".txt"
-    print(filename)
-    f = open("data/" + filename, "x")
-    f.write(str(data).replace("'",'"'))
-    f.close()
+        # print(client.list_objects(
+        #     Bucket=BUCKET_LABEL,)["Contents"])
 
-    # print(client.list_objects(
-    #     Bucket=BUCKET_LABEL,)["Contents"])
+        # client.put_object()
 
-    # client.put_object()
-
-    client.upload_file(
-        Filename='data/' +filename,
-        Bucket=BUCKET_LABEL,
-        Key=filename,
-        ExtraArgs={'ACL':'public-read'})
+        client.upload_file(
+            Filename='data/' +filename,
+            Bucket=BUCKET_LABEL,
+            Key=filename,
+            ExtraArgs={'ACL':'public-read'})
+    except:
+        print("Failed to write file to remote bucket.")

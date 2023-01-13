@@ -21,7 +21,7 @@ def setup():
     lcd = I2cLcd(1, DEFAULT_I2C_ADDR, 2, 16)
     lcd.blink_cursor_off()
     lcd.hide_cursor()
-    lcd.putstr("   Welcome to\n     DannyPC")
+    lcd.putstr("   Welcome to\n   ChickenPC")
     time.sleep(1)
     lcd.clear()
     print("backlight enabled",backlight_enabled)
@@ -49,8 +49,11 @@ def write(string):
             if len(i) > 16:
                 valid = False
         if valid:
-            lcd.clear()
-            lcd.putstr(string)
+            try:
+                lcd.clear()
+                lcd.putstr(string)
+            except:
+                print("Error: Failed to print to LCD")
         else:
             print("Error: Too large of text")
 

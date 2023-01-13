@@ -1,7 +1,7 @@
 ERROR = "N/A"
 
 def checkInput(input,min=-999,max=999):
-    print((type(input)))
+  
     if not isinstance(input, float) and not isinstance(input,int):
         print("Incorrect type")
         return ERROR
