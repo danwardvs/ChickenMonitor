@@ -19,4 +19,4 @@ while True:
     data = {"temp":temp,"humidity":humidity}
 
     MyWrite.write(data)
-    time.sleep(2)
+    time.sleep(60*2)

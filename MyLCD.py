@@ -24,7 +24,6 @@ def setup():
     lcd.putstr("   Welcome to\n   ChickenPC")
     time.sleep(1)
     lcd.clear()
-    print("backlight enabled",backlight_enabled)
     if not backlight_enabled:
         lcd.backlight_off()
 
