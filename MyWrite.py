@@ -19,7 +19,14 @@ linode_obj_config = {
 
 def write(data):
 
-    cwd = os.getcwd()
+    cwd = ""
+    path = os.path.realpath(__file__)
+    path = path.split("/")
+    for f in range(len(path)-1):
+        cwd+="/"
+        cwd+=path[f]
+    cwd+="/"
+
     try:
         client = boto3.client("s3", **linode_obj_config)
 

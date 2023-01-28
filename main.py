@@ -1,11 +1,8 @@
-
-import time
-
 import MyLCD
 import MyWrite
 import MyTemperature
 import MyHumidity
-
+import MyTime
 
 
 
@@ -14,9 +11,11 @@ MyLCD.setup()
 while True:
     temp = MyTemperature.read()
     humidity = MyHumidity.read()
-
-    MyLCD.write("Temp: " + temp + "\n" + "Hmdy: " + humidity + "%")
+    time = MyTime.read()
+    
+    MyLCD.write("Temp: " + temp + "\n" + "Hmdy: " + humidity + "%  " + time)
+    
     data = {"temp":temp,"humidity":humidity}
 
     MyWrite.write(data)
-    time.sleep(60*2)
+    MyTime.sleep(60)
